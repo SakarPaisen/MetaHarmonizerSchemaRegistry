@@ -1,0 +1,195 @@
+{
+  "control": [
+    "Study Control",
+    "Case",
+    "Not Used"
+  ],
+  "body_site": [
+    "feces",
+    "oral cavity",
+    "skin epidermis",
+    "vagina",
+    "nasal cavity",
+    "milk"
+  ],
+  "lifestyle": [
+    "Hunter-gatherer",
+    "Agriculturalist",
+    "Agropastoralist",
+    "Pastoralist",
+    "Fisher"
+  ],
+  "probing_pocket_depth": [
+    "Buccal surface",
+    "Distal surface of tooth",
+    "Lingual surface of tooth",
+    "Mesial surface of tooth"
+  ],
+  "westernized": [
+    "Yes",
+    "No"
+  ],
+  "antibiotics_exclusion_period_unit": [
+    "Day",
+    "Week",
+    "Month"
+  ],
+  "dna_extraction_kit": [
+    "Qiagen",
+    "Gnome",
+    "MoBio",
+    "MPBio",
+    "NorgenBiotek",
+    "Illuminakit",
+    "Maxwell_LEV",
+    "PSP_Spin_Stool",
+    "Tiangen",
+    "PowerSoil",
+    "Chemagen",
+    "other",
+    "PowerSoilPro",
+    "ZR_Fecal_DNA_MiniPrep",
+    "KAMA_Hyper_Prep",
+    "thermo_fisher",
+    "QIAamp"
+  ],
+  "sequencing_platform": [
+    "IlluminaHiSeq",
+    "IlluminaMiSeq",
+    "IlluminaNextSeq",
+    "IlluminaNovaSeq",
+    "IonProton",
+    "BGISeq"
+  ],
+  "age_group": [
+    "Newborn",
+    "Infant",
+    "Child",
+    "Adolescent",
+    "Adult",
+    "Elderly"
+  ],
+  "age_unit": [
+    "Day",
+    "Week",
+    "Month",
+    "Year"
+  ],
+  "family_role": [
+    "child",
+    "mother",
+    "father"
+  ],
+  "sex": [
+    "Female",
+    "Male"
+  ],
+  "zigosity": [
+    "monozygotic",
+    "dizygotic"
+  ],
+  "antibiotics_current_use": [
+    "Yes",
+    "No"
+  ],
+  "dietary_restriction": [
+    "omnivore",
+    "low_gluten",
+    "high_gluten",
+    "gluten_free",
+    "vegetarian",
+    "vegan",
+    "pescatarian",
+    "high_fiber",
+    "low_fiber",
+    "paleo",
+    "equal_protein_fat_carbs",
+    "high_complex_carbs",
+    "lactose_intolerance",
+    "others"
+  ],
+  "disease_response_orr": [
+    "Yes",
+    "No"
+  ],
+  "disease_response_pfs": [
+    "Yes",
+    "No"
+  ],
+  "disease_response_recist": [
+    "RECIST Complete Response",
+    "RECIST Partial Response",
+    "RECIST Progressive Disease",
+    "RECIST Stable Disease"
+  ],
+  "feces_phenotype": [
+    "Bristol stool form score (observable entity)",
+    "Calprotectin Measurement",
+    "Harvey-Bradshaw Index Clinical Classification"
+  ],
+  "fmt_role": [
+    "Recipient (after procedure)",
+    "Recipient (before procedure)",
+    "Donor"
+  ],
+  "neonatal_delivery_procedure": [
+    "Elective Cesarean Delivery",
+    "Emergency Cesarean Delivery",
+    "Cesarean Section",
+    "Vaginal Delivery"
+  ],
+  "neonatal_feeding_method": [
+    "Mixed Feeding",
+    "Exclusively Breastfeeding",
+    "Exclusively Formula Feeding",
+    "No Breastfeeding"
+  ],
+  "neonatal_preterm_birth": [
+    "Preterm Birth",
+    "Term Birth"
+  ],
+  "obgyn_birth_control": [
+    "Yes",
+    "No"
+  ],
+  "obgyn_lactating": [
+    "Yes",
+    "No"
+  ],
+  "obgyn_pregnancy": [
+    "Pregnant",
+    "Not Pregnant"
+  ],
+  "smoker": [
+    "Smoker (finding)",
+    "Non-smoker (finding)",
+    "Ex-smoker (finding)",
+    "Never smoked tobacco (finding)"
+  ],
+  "tumor_staging_ajcc": [
+    "0",
+    "I",
+    "II",
+    "III",
+    "IV",
+    "I/II",
+    "III/IV",
+    "IIIA",
+    "IIIB"
+  ],
+  "disease_response_os_unit": [
+    "Day",
+    "Week",
+    "Month",
+    "Year"
+  ],
+  "ecog_performance_status": [
+    "ECOG Performance Status 0",
+    "ECOG Performance Status 1",
+    "ECOG Performance Status 2",
+    "ECOG Performance Status 2 or Higher",
+    "ECOG Performance Status 3",
+    "ECOG Performance Status 4",
+    "ECOG Performance Status 5"
+  ]
+}

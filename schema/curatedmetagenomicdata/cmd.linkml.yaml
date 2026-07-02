@@ -1,0 +1,834 @@
+id: https://w3id.org/omicsmlrepo/cmd
+name: cmd
+version: 1.0.0
+last_updated_on: '2026-07-01'
+description: cmd schema for the MetaHarmonizer ecosystem
+prefixes:
+  linkml: https://w3id.org/linkml/
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+  HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  MRO: http://purl.obolibrary.org/obo/MRO_
+  SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
+default_prefix: cmd
+imports:
+- linkml:types
+classes:
+  CmdRecord:
+    description: Main data class for cmd
+    slots:
+    - study_name
+    - subject_id
+    - sample_id
+    - curator
+    - pmid
+    - subcohort
+    - target_condition
+    - control
+    - country
+    - body_site
+    - body_site_details
+    - days_from_first_collection
+    - lifestyle
+    - location
+    - probing_pocket_depth
+    - westernized
+    - antibiotics_exclusion_period
+    - antibiotics_exclusion_period_unit
+    - probing_pocket_depth_value
+    - dna_extraction_kit
+    - ncbi_accession
+    - sequencing_platform
+    - age
+    - age_group
+    - age_unit
+    - ancestry
+    - ancestry_details
+    - family
+    - family_role
+    - sex
+    - zigosity
+    - age_min
+    - age_max
+    - age_years
+    - antibiotics_current_use
+    - bmi
+    - dietary_restriction
+    - disease
+    - disease_details
+    - disease_response_orr
+    - disease_response_pfs
+    - disease_response_pfs_month
+    - disease_response_recist
+    - feces_phenotype
+    - fmt_id
+    - fmt_role
+    - hla
+    - neonatal_birth_weight
+    - neonatal_delivery_procedure
+    - neonatal_feeding_method
+    - neonatal_gestational_age
+    - neonatal_preterm_birth
+    - obgyn_birth_control
+    - obgyn_lactating
+    - obgyn_menopause
+    - obgyn_pregnancy
+    - smoker
+    - treatment
+    - tumor_staging_ajcc
+    - tumor_staging_tnm
+    - biomarker_name
+    - biomarker_unit
+    - biomarker_value
+    - disease_response_os
+    - disease_response_os_unit
+    - ecog_performance_status
+    - feces_phenotype_value
+    - tumor_size_measurement
+    - tumor_size_residual_measurement
+    - uncurated_metadata
+    - host_species
+slots:
+  study_name:
+    description: Canonical study identifier (for example EinsteinA_YYYY).
+    range: string
+    required: true
+    pattern: '[a-zA-Z-]+_[0-9]{4}|[a-zA-Z-]+_[0-9]{4}[a-zA-Z-]+|[a-zA-Z-]+_[0-9]{4}_[a-zA-Z-]+|[a-zA-Z-]+_[0-9]{4}_[a-zA-Z0-9]+'
+  subject_id:
+    description: Unique identifier for a participant within a study. Values may be
+      non-unique e.g. when there are repeated measures for a participant.
+    range: string
+    required: true
+    pattern: '[0-9a-zA-Z]\S+'
+  sample_id:
+    description: Unique identifier for a biospecimen/sample.
+    range: string
+    required: true
+    identifier: true
+    pattern: '[0-9a-zA-Z]\S+'
+  curator:
+    description: Name(s) of curator(s) responsible for this entry.
+    range: string
+    multivalued: true
+  pmid:
+    description: PubMed identifier of the primary publication for the study.
+    range: integer
+    pattern: '[0-9]{8}'
+  subcohort:
+    description: Identifier for a subset of the study cohort.
+    range: string
+    pattern: '[0-9a-zA-Z]\S+'
+  target_condition:
+    description: 'Primary phenotype(s) or condition(s) investigated in the study.
+      Lookup seed ontology IDs: NCIT:C7057; MONDO:0000001. Type: looked_up. Looked
+      up: Yes. Includes child terms: Yes. Existing-dataset-only values now: Conditional
+      (Yes only when lookup falls back to curated existing dataset values)'
+    range: target_condition_enum
+    required: true
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: NCIT:C7057, MONDO:0000001'
+  control:
+    description: 'Case-control role of the sample in the study. Static ontology IDs:
+      NCIT:C142703; NCIT:C49152; NCIT:C69062. Type: static.'
+    range: control_enum
+    required: true
+  country:
+    description: 'Country where the participant resides and/or the sample was collected.
+      Lookup seed ontology IDs: NCIT:C25464. Type: looked_up. Looked up: Yes. Includes
+      child terms: Yes. Existing-dataset-only values now: Conditional (Yes only when
+      lookup falls back to curated existing dataset values)'
+    range: country_enum
+    comments:
+    - 'Values should be descendants of: NCIT:C25464'
+  body_site:
+    description: 'Anatomical body site from which the sample was collected. Static
+      ontology IDs: UBERON:0001988; UBERON:0000167; UBERON:0001003; UBERON:0000996;
+      UBERON:0001707; UBERON:0001913. Type: static.'
+    range: body_site_enum
+    required: true
+  body_site_details:
+    description: 'More specific anatomical subsite for sample collection than body_site.
+      Lookup seed ontology IDs: UBERON:0001062. Type: looked_up. Looked up: Yes. Includes
+      child terms: Yes. Existing-dataset-only values now: Conditional (Yes only when
+      lookup falls back to curated existing dataset values)'
+    range: body_site_details_enum
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: UBERON:0001062'
+  days_from_first_collection:
+    description: Days elapsed since the first collection time point in longitudinal
+      studies.
+    range: integer
+    pattern: '[0-9]+'
+  lifestyle:
+    description: Lifestyle category (primarily used for traditional or non-westernized
+      populations).
+    range: lifestyle_enum
+  location:
+    description: Free-text additional location detail (for example city or region).
+    range: string
+    pattern: .+
+  probing_pocket_depth:
+    description: 'Tooth surface/region where periodontal pocket depth was measured.
+      Static ontology IDs: FMA:64849; FMA:55649; FMA:55647; FMA:55650. Type: static.'
+    range: probing_pocket_depth_enum
+    multivalued: true
+  westernized:
+    description: Whether the participant is classified as westernized.
+    range: westernized_enum
+  antibiotics_exclusion_period:
+    description: Minimum washout period from antibiotic use required by study criteria.
+    range: float
+    pattern: '[0-9]+\.?[0-9]*'
+  antibiotics_exclusion_period_unit:
+    description: 'Unit used for `antibiotics_exclusion_period`. Static ontology IDs:
+      NCIT:C25301; NCIT:C29844; NCIT:C29846. Type: static.'
+    range: antibiotics_exclusion_period_unit_enum
+  probing_pocket_depth_value:
+    description: Numeric probing depth measurement corresponding to `probing_pocket_depth`.
+    range: string
+    multivalued: true
+    pattern: ^\d+(\.\d+)?$
+  dna_extraction_kit:
+    description: Name of the DNA extraction kit or protocol used.
+    range: dna_extraction_kit_enum
+  ncbi_accession:
+    description: NCBI SRA/ENA accession(s) associated with the sample or run.
+    range: string
+    pattern: '[ES]R[SR][0-9]+'
+  sequencing_platform:
+    description: Sequencing platform/instrument used to generate the data.
+    range: sequencing_platform_enum
+    required: true
+  age:
+    description: Participant age in the unit specified by `age_unit`.
+    range: integer
+    pattern: '[0-9]+'
+  age_group:
+    description: 'Age group classification: Newborn (< 1 month/28 days), Infant (>=
+      1 month & < 2 yrs), Child (>= 2 yrs & < 11 yrs), Adolescent (>= 11 yrs & < 18
+      yrs), Adult (>= 18 yrs & < 65 yrs), Elderly (>= 65 yrs) Static ontology IDs:
+      NCIT:C16731; NCIT:C27956; NCIT:C16423; NCIT:C27954; NCIT:C17600; NCIT:C16268.
+      Type: static.'
+    range: age_group_enum
+  age_unit:
+    description: 'Unit used to report `age`. Static ontology IDs: NCIT:C25301; NCIT:C29844;
+      NCIT:C29846; NCIT:C29848. Type: static.'
+    range: age_unit_enum
+  ancestry:
+    description: 'Broad ancestry category (children of HANCESTRO:0004). Lookup seed
+      ontology IDs: HANCESTRO:0004. Type: looked_up. Looked up: Yes. Includes child
+      terms: Yes. Existing-dataset-only values now: Conditional (Yes only when lookup
+      falls back to curated existing dataset values)'
+    range: ancestry_enum
+    comments:
+    - 'Values should be direct children of: HANCESTRO:0004'
+  ancestry_details:
+    description: 'More specific ancestry term(s) typically refer to descendants of
+      the selected ancestry category. Lookup seed ontology IDs: HANCESTRO:0004. Type:
+      looked_up. Looked up: Yes. Includes child terms: Yes. Existing-dataset-only
+      values now: Conditional (Yes only when lookup falls back to curated existing
+      dataset values)'
+    range: ancestry_details_enum
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: HANCESTRO:0004'
+  family:
+    description: Family identifier when multiple related participants are included.
+    range: string
+    pattern: .+
+  family_role:
+    description: Participant role within the family (for family-based sampling).
+    range: family_role_enum
+  sex:
+    description: 'Biological sex of the subject Static ontology IDs: NCIT:C16576;
+      NCIT:C20197. Type: static.'
+    range: sex_enum
+  zigosity:
+    description: Twin zygosity status.
+    range: zigosity_enum
+  age_min:
+    description: Minimum possible age. For samples only with 'age_group' information,
+      this represents the definition of a given age group. For specific age information,
+      'age_min' and 'age_max' are identical.
+    range: float
+    pattern: '[0-9]+\.?[0-9]*'
+  age_max:
+    description: Maximum possible age. For samples only with 'age_group' information,
+      this represents the definition of a given age group. For specific age information,
+      'age_min' and 'age_max' are identical.
+    range: float
+    pattern: '[0-9]+\.?[0-9]*'
+  age_years:
+    description: Age in years
+    range: float
+    pattern: '[0-9]+\.?[0-9]*'
+  antibiotics_current_use:
+    description: Whether the participant is currently using antibiotics.
+    range: antibiotics_current_use_enum
+  bmi:
+    description: Body mass index (BMI; EFO:0004340) calculated as weight (kg) divided
+      by height squared (m²).
+    range: float
+    pattern: '[0-9]+\.?[0-9]*'
+  dietary_restriction:
+    description: Dietary regime (partial match to SNOMED:182922004 or SNOMED:162536008)
+    range: dietary_restriction_enum
+    multivalued: true
+  disease:
+    description: 'Reported disease or condition term(s) for the participant; use Healthy
+      when no target condition is detected. Lookup seed ontology IDs: NCIT:C7057;
+      MONDO:0000001. Type: looked_up. Looked up: Yes. Includes child terms: Yes. Existing-dataset-only
+      values now: Conditional (Yes only when lookup falls back to curated existing
+      dataset values)'
+    range: disease_enum
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: NCIT:C7057, MONDO:0000001'
+  disease_details:
+    description: 'More specific disease or condition term(s) for the participant;
+      use Healthy when appropriate. Lookup seed ontology IDs: NCIT:C7057; MONDO:0000001.
+      Type: looked_up. Looked up: Yes. Includes child terms: Yes. Existing-dataset-only
+      values now: Conditional (Yes only when lookup falls back to curated existing
+      dataset values)'
+    range: disease_details_enum
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: NCIT:C7057, MONDO:0000001'
+  disease_response_orr:
+    description: Overall response rate (ORR; NCIT:C96613) indicator for treatment
+      response.
+    range: disease_response_orr_enum
+  disease_response_pfs:
+    description: 'Progression Free Survival (PFS, EFO:0004920): Progression free survival
+      is a measurement from a defined time point e.g. diagnosis and indicates that
+      the disease did not progress i.e. tumours did not increase in size and new incidences
+      did not occur. PFS is usually used in analyzing results of treatment for advanced
+      disease.'
+    range: disease_response_pfs_enum
+  disease_response_pfs_month:
+    description: Progression-free survival follow-up time in months.
+    range: integer
+    pattern: '[0-9]+'
+  disease_response_recist:
+    description: 'Response Evaluation Criteria in Solid Tumors (RECIST, DICOM:112022):
+      Standard parameters to be used when documenting response of solid tumors to
+      treatment; a set of published rules that define when cancer patients improve
+      (`respond`), stay the same (`stable`), or worsen (`progression`) during treatments.
+      (from www.recist.com) Static ontology IDs: NCIT:C159715; NCIT:C159547; NCIT:C159716;
+      NCIT:C159546. Type: static.'
+    range: disease_response_recist_enum
+  feces_phenotype:
+    description: 'Stool-related phenotype or clinical measurement type. Static ontology
+      IDs: SNOMED:443172007; NCIT:C82005; NCIT:C191036. Type: static.'
+    range: feces_phenotype_enum
+    multivalued: true
+  fmt_id:
+    description: Study-specific identifier assigned to FMT participants.
+    range: string
+    multivalued: true
+    pattern: .+
+  fmt_role:
+    description: Role in fecal microbiota transplantation (donor or recipient before/after
+      procedure).
+    range: fmt_role_enum
+  hla:
+    description: 'Human leukocyte antigen (HLA) typing information. Lookup seed ontology
+      IDs: MRO:0001676. Type: looked_up. Looked up: Yes. Includes child terms: Yes.
+      Existing-dataset-only values now: Conditional (Yes only when lookup falls back
+      to curated existing dataset values)'
+    range: hla_enum
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: MRO:0001676'
+  neonatal_birth_weight:
+    description: Birth weight (EFO:0004344) recorded in grams.
+    range: float
+    pattern: ^[1-9]\d*(\.\d+)?$
+  neonatal_delivery_procedure:
+    description: 'Delivery method at birth (NCIT:C81179). Static ontology IDs: NCIT:C114141;
+      NCIT:C92772; NCIT:C46088; NCIT:C81303. Type: static.'
+    range: neonatal_delivery_procedure_enum
+  neonatal_feeding_method:
+    description: Infant feeding method(s) during early life.
+    range: neonatal_feeding_method_enum
+    multivalued: true
+  neonatal_gestational_age:
+    description: Gestational age at birth (EFO:0005112) in weeks.
+    range: float
+    pattern: ^[1-9]\d*(\.\d+)?$
+  neonatal_preterm_birth:
+    description: 'Birth when a fetus is less than 37 weeks and 0 days gestational
+      age (NCIT:C92861). Static ontology IDs: NCIT:C92861; NCIT:C114093. Type: static.'
+    range: neonatal_preterm_birth_enum
+  obgyn_birth_control:
+    description: Whether oral contraceptive birth control is currently used.
+    range: obgyn_birth_control_enum
+  obgyn_lactating:
+    description: An indication that the subject is currently producing milk. (NCIT:C82463)
+    range: obgyn_lactating_enum
+  obgyn_menopause:
+    description: 'Menopausal status of the participant. Lookup seed ontology IDs:
+      NCIT:C106541. Type: looked_up. Looked up: Yes. Includes child terms: Yes. Existing-dataset-only
+      values now: Conditional (Yes only when lookup falls back to curated existing
+      dataset values)'
+    range: obgyn_menopause_enum
+    comments:
+    - 'Values should be descendants of: NCIT:C106541'
+  obgyn_pregnancy:
+    description: 'Current pregnancy status of the participant. Static ontology IDs:
+      NCIT:C124295; NCIT:C82475. Type: static.'
+    range: obgyn_pregnancy_enum
+  smoker:
+    description: 'Tobacco smoking status/history; use `Non-smoker (finding)` only
+      when past smoking history is unavailable. Static ontology IDs: SNOMED:77176002;
+      SNOMED:8392000; SNOMED:8517006; SNOMED:266919005. Type: static.'
+    range: smoker_enum
+    multivalued: true
+  treatment:
+    description: 'Treatment(s) or medication(s) administered to the participant. Static
+      ontology IDs: NCIT:C41132. Lookup seed ontology IDs: NCIT:C1908. Type: static
+      + looked_up. Looked up: Yes. Includes child terms: Yes. Existing-dataset-only
+      values now: Conditional (Yes only when lookup falls back to curated existing
+      dataset values)'
+    range: treatment_enum
+    multivalued: true
+    comments:
+    - 'Values should be descendants of: NCIT:C1908'
+  tumor_staging_ajcc:
+    description: American Joint Committee on Cancer (tumor staging) (SNOMED:258236004).
+      A system to describe the amount and spread of cancer in a patient's body
+    range: tumor_staging_ajcc_enum
+  tumor_staging_tnm:
+    description: Tumor-node-metastasis (TNM) tumor staging system (tumor staging)
+      (SNOMED:254293002).A system to describe the amount and spread of cancer in a
+      patient's body
+    range: string
+    pattern: T[X1-4]N[X0-3]M[X0-1]|pTis|Tis
+  biomarker_name:
+    description: A measurable and quantifiable characteristic or substance that serves
+      as an indicator of a biological state, condition, or process within an organism.
+    range: string
+    multivalued: true
+  biomarker_unit:
+    description: Unit for biomarker
+    range: string
+    multivalued: true
+  biomarker_value:
+    description: Value for biomarker
+    range: float
+    multivalued: true
+    pattern: '[0-9]+\.?[0-9]*'
+  disease_response_os:
+    description: Overall survival duration (time to death from any cause; NCIT:C125201).
+    range: float
+    pattern: ^[1-9]\d*(\.\d+)?$
+  disease_response_os_unit:
+    description: 'Unit used to report `disease_response_os`. Static ontology IDs:
+      NCIT:C25301; NCIT:C29844; NCIT:C29846; NCIT:C29848. Type: static.'
+    range: disease_response_os_unit_enum
+  ecog_performance_status:
+    description: 'A performance status scale designed to assess disease progression
+      and its affect on the daily living abilities of the patient. (NCIT:C105721)
+      Static ontology IDs: NCIT:C105722; NCIT:C105723; NCIT:C105724; NCIT:C105725;
+      NCIT:C105726; NCIT:C105727; NCIT:C105728. Type: static.'
+    range: ecog_performance_status_enum
+  feces_phenotype_value:
+    description: Value(s) corresponding to `feces_phenotype` measurements.
+    range: string
+    multivalued: true
+    pattern: ^\d+(\.\d+)?$
+  tumor_size_measurement:
+    description: Tumor size measurement from clinical assessment or resected specimen
+      (NCIT:C106303).
+    range: float
+    pattern: ^[1-9]\d*(\.\d+)?$
+  tumor_size_residual_measurement:
+    description: Residual tumor size measurement after treatment/procedure (NCIT:C198194).
+    range: string
+    pattern: ^[1-9]\d*(\.\d+)?$
+  uncurated_metadata:
+    description: Additional free-text metadata not represented by existing fields.
+    range: string
+    multivalued: true
+    pattern: .+
+  host_species:
+    description: Host species of the participant.
+    range: host_species_enum
+    required: true
+    comments:
+    - 'Values should be descendants of: NCBITaxon:1'
+enums:
+  target_condition_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncit
+        source_nodes:
+        - NCIT:C7057
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+    - reachable_from:
+        source_ontology: obo:mondo
+        source_nodes:
+        - MONDO:0000001
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  control_enum:
+    permissible_values:
+      Study Control:
+        meaning: NCIT:C142703
+      Case:
+        meaning: NCIT:C49152
+      Not Used:
+        meaning: NCIT:C69062
+  country_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncit
+        source_nodes:
+        - NCIT:C25464
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  body_site_enum:
+    permissible_values:
+      feces:
+        meaning: UBERON:0001988
+      oral cavity:
+        meaning: UBERON:0000167
+      skin epidermis:
+        meaning: UBERON:0001003
+      vagina:
+        meaning: UBERON:0000996
+      nasal cavity:
+        meaning: UBERON:0001707
+      milk:
+        meaning: UBERON:0001913
+  body_site_details_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:uberon
+        source_nodes:
+        - UBERON:0001062
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  lifestyle_enum:
+    permissible_values:
+      Hunter-gatherer: null
+      Agriculturalist: null
+      Agropastoralist: null
+      Pastoralist: null
+      Fisher: null
+  probing_pocket_depth_enum:
+    permissible_values:
+      Buccal surface:
+        meaning: FMA:64849
+      Distal surface of tooth:
+        meaning: FMA:55649
+      Lingual surface of tooth:
+        meaning: FMA:55647
+      Mesial surface of tooth:
+        meaning: FMA:55650
+  westernized_enum:
+    permissible_values:
+      'Yes': null
+      'No': null
+  antibiotics_exclusion_period_unit_enum:
+    permissible_values:
+      Day:
+        meaning: NCIT:C25301
+      Week:
+        meaning: NCIT:C29844
+      Month:
+        meaning: NCIT:C29846
+  dna_extraction_kit_enum:
+    permissible_values:
+      Qiagen: null
+      Gnome: null
+      MoBio: null
+      MPBio: null
+      NorgenBiotek: null
+      Illuminakit: null
+      Maxwell_LEV: null
+      PSP_Spin_Stool: null
+      Tiangen: null
+      PowerSoil: null
+      Chemagen: null
+      other: null
+      PowerSoilPro: null
+      ZR_Fecal_DNA_MiniPrep: null
+      KAMA_Hyper_Prep: null
+      thermo_fisher: null
+      QIAamp: null
+  sequencing_platform_enum:
+    permissible_values:
+      IlluminaHiSeq: null
+      IlluminaMiSeq: null
+      IlluminaNextSeq: null
+      IlluminaNovaSeq: null
+      IonProton: null
+      BGISeq: null
+  age_group_enum:
+    permissible_values:
+      Newborn:
+        meaning: NCIT:C16731
+      Infant:
+        meaning: NCIT:C27956
+      Child:
+        meaning: NCIT:C16423
+      Adolescent:
+        meaning: NCIT:C27954
+      Adult:
+        meaning: NCIT:C17600
+      Elderly:
+        meaning: NCIT:C16268
+  age_unit_enum:
+    permissible_values:
+      Day:
+        meaning: NCIT:C25301
+      Week:
+        meaning: NCIT:C29844
+      Month:
+        meaning: NCIT:C29846
+      Year:
+        meaning: NCIT:C29848
+  ancestry_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:hancestro
+        source_nodes:
+        - HANCESTRO:0004
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: true
+  ancestry_details_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:hancestro
+        source_nodes:
+        - HANCESTRO:0004
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  family_role_enum:
+    permissible_values:
+      child: null
+      mother: null
+      father: null
+  sex_enum:
+    permissible_values:
+      Female:
+        meaning: NCIT:C16576
+      Male:
+        meaning: NCIT:C20197
+  zigosity_enum:
+    permissible_values:
+      monozygotic: null
+      dizygotic: null
+  antibiotics_current_use_enum:
+    permissible_values:
+      'Yes': null
+      'No': null
+  dietary_restriction_enum:
+    permissible_values:
+      omnivore: null
+      low_gluten: null
+      high_gluten: null
+      gluten_free: null
+      vegetarian: null
+      vegan: null
+      pescatarian: null
+      high_fiber: null
+      low_fiber: null
+      paleo: null
+      equal_protein_fat_carbs: null
+      high_complex_carbs: null
+      lactose_intolerance: null
+      others: null
+  disease_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncit
+        source_nodes:
+        - NCIT:C7057
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+    - reachable_from:
+        source_ontology: obo:mondo
+        source_nodes:
+        - MONDO:0000001
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  disease_details_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncit
+        source_nodes:
+        - NCIT:C7057
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+    - reachable_from:
+        source_ontology: obo:mondo
+        source_nodes:
+        - MONDO:0000001
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  disease_response_orr_enum:
+    permissible_values:
+      'Yes': null
+      'No': null
+  disease_response_pfs_enum:
+    permissible_values:
+      'Yes': null
+      'No': null
+  disease_response_recist_enum:
+    permissible_values:
+      RECIST Complete Response:
+        meaning: NCIT:C159715
+      RECIST Partial Response:
+        meaning: NCIT:C159547
+      RECIST Progressive Disease:
+        meaning: NCIT:C159716
+      RECIST Stable Disease:
+        meaning: NCIT:C159546
+  feces_phenotype_enum:
+    permissible_values:
+      Bristol stool form score (observable entity):
+        meaning: SNOMED:443172007
+      Calprotectin Measurement:
+        meaning: NCIT:C82005
+      Harvey-Bradshaw Index Clinical Classification:
+        meaning: NCIT:C191036
+  fmt_role_enum:
+    permissible_values:
+      Recipient (after procedure): null
+      Recipient (before procedure): null
+      Donor: null
+  hla_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:mro
+        source_nodes:
+        - MRO:0001676
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  neonatal_delivery_procedure_enum:
+    permissible_values:
+      Elective Cesarean Delivery:
+        meaning: NCIT:C114141
+      Emergency Cesarean Delivery:
+        meaning: NCIT:C92772
+      Cesarean Section:
+        meaning: NCIT:C46088
+      Vaginal Delivery:
+        meaning: NCIT:C81303
+  neonatal_feeding_method_enum:
+    permissible_values:
+      Mixed Feeding: null
+      Exclusively Breastfeeding: null
+      Exclusively Formula Feeding: null
+      No Breastfeeding: null
+  neonatal_preterm_birth_enum:
+    permissible_values:
+      Preterm Birth:
+        meaning: NCIT:C92861
+      Term Birth:
+        meaning: NCIT:C114093
+  obgyn_birth_control_enum:
+    permissible_values:
+      'Yes': null
+      'No': null
+  obgyn_lactating_enum:
+    permissible_values:
+      'Yes': null
+      'No': null
+  obgyn_menopause_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncit
+        source_nodes:
+        - NCIT:C106541
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  obgyn_pregnancy_enum:
+    permissible_values:
+      Pregnant:
+        meaning: NCIT:C124295
+      Not Pregnant:
+        meaning: NCIT:C82475
+  smoker_enum:
+    permissible_values:
+      Smoker (finding):
+        meaning: SNOMED:77176002
+      Non-smoker (finding):
+        meaning: SNOMED:8392000
+      Ex-smoker (finding):
+        meaning: SNOMED:8517006
+      Never smoked tobacco (finding):
+        meaning: SNOMED:266919005
+  treatment_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncit
+        source_nodes:
+        - NCIT:C1908
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false
+  tumor_staging_ajcc_enum:
+    permissible_values:
+      '0': null
+      I: null
+      II: null
+      III: null
+      IV: null
+      I/II: null
+      III/IV: null
+      IIIA: null
+      IIIB: null
+  disease_response_os_unit_enum:
+    permissible_values:
+      Day:
+        meaning: NCIT:C25301
+      Week:
+        meaning: NCIT:C29844
+      Month:
+        meaning: NCIT:C29846
+      Year:
+        meaning: NCIT:C29848
+  ecog_performance_status_enum:
+    permissible_values:
+      ECOG Performance Status 0:
+        meaning: NCIT:C105722
+      ECOG Performance Status 1:
+        meaning: NCIT:C105723
+      ECOG Performance Status 2:
+        meaning: NCIT:C105724
+      ECOG Performance Status 2 or Higher:
+        meaning: NCIT:C105725
+      ECOG Performance Status 3:
+        meaning: NCIT:C105726
+      ECOG Performance Status 4:
+        meaning: NCIT:C105727
+      ECOG Performance Status 5:
+        meaning: NCIT:C105728
+  host_species_enum:
+    include:
+    - reachable_from:
+        source_ontology: obo:ncbitaxon
+        source_nodes:
+        - NCBITaxon:1
+        relationship_types:
+        - rdfs:subClassOf
+        is_direct: false

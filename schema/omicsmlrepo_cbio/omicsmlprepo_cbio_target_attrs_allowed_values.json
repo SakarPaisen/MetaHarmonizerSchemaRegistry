@@ -1,0 +1,24 @@
+{
+  "age_group": [
+    "Newborn",
+    "Infant",
+    "Child",
+    "Adolescent",
+    "Adult",
+    "Elderly"
+  ],
+  "smoker": [
+    "Smoker (finding)",
+    "Non-smoker (finding)",
+    "Ex-smoker (finding)",
+    "Never smoked tobacco (finding)"
+  ],
+  "tumor_staging_ajcc": [
+    "0",
+    "I",
+    "II",
+    "III",
+    "IV",
+    "III/IV"
+  ]
+}

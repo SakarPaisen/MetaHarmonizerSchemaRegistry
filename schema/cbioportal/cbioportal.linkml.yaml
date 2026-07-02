@@ -1,0 +1,341 @@
+id: https://w3id.org/omicsmlrepo/cbioportal
+name: cbioportal
+version: 1.0.0
+last_updated_on: '2026-07-01'
+description: cbioportal schema for the MetaHarmonizer ecosystem
+prefixes:
+  linkml: https://w3id.org/linkml/
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+  HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  MRO: http://purl.obolibrary.org/obo/MRO_
+  SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
+default_prefix: cbioportal
+imports:
+- linkml:types
+classes:
+  CbioportalRecord:
+    description: Main data class for cbioportal
+    slots:
+    - AGE
+    - DFS_MONTHS
+    - DFS_STATUS
+    - GENDER
+    - OS_MONTHS
+    - OS_STATUS
+    - PATIENT_DISPLAY_NAME
+    - PATIENT_ID
+    - SEX
+    - TUMOR_SITE
+    - ASCN.CCF_EXPECTED_COPIES
+    - ASCN.CCF_EXPECTED_COPIES_UPPER
+    - ASCN.EXPECTED_ALT_COPIES
+    - CANCER_TYPE
+    - CANCER_TYPE_DETAILED
+    - DRIVER_MUTATIONS
+    - ERG_FUSION_ACGH
+    - ETS_RAF_SPINK1_STATUS
+    - GLEASON_SCORE
+    - HISTOLOGY
+    - KNOWN_MOLECULAR_CLASSIFIER
+    - SERUM_PSA
+    - TMPRSS2_ERG_FUSION_STATUS
+    - TUMOR_GRADE
+    - TUMOR_STAGE_2009
+    - METASTATIC_SITE
+    - PRIMARY_SITE
+    - SAMPLE_CLASS
+    - SAMPLE_DISPLAY_NAME
+    - SAMPLE_ID
+    - SAMPLE_TYPE
+    - TUMOR_TISSUE_SITE
+    - TUMOR_TYPE
+    - AGENT
+    - AGENT_CLASS
+    - DIAGNOSTIC_TYPE
+    - DIAGNOSTIC_TYPE_DETAILED
+    - EVENT_TYPE
+    - SPECIMEN_SITE
+    - SPECIMEN_TYPE
+    - START_DATE
+    - STATUS
+    - STOP_DATE
+    - STYLE_COLOR
+    - STYLE_SHAPE
+    - SUBTYPE
+    - TEST
+    - TL_PATIENT_ID
+    - TL_RESULT
+    - TL_SAMPLE_ID
+    - TL_SOURCE
+    - TREATMENT_TYPE
+slots:
+  AGE:
+    description: Age at which the condition or disease was first diagnosed, in years.
+    range: integer
+    pattern: '[0-9]+'
+  DFS_MONTHS:
+    description: Disease free survival in months since initial treatment.
+    range: float
+  DFS_STATUS:
+    description: 'Disease free status since initial treatment. Value must be prefixed
+      with 0: (no event) or 1: (event occurred).'
+    range: DFS_STATUS_enum
+  GENDER:
+    description: Gender or sex of the patient.
+    range: string
+    pattern: .+
+  OS_MONTHS:
+    description: Overall survival in months since initial diagnosis.
+    range: float
+  OS_STATUS:
+    description: 'Overall patient survival status. Value must be prefixed with 0:
+      (no event) or 1: (event occurred).'
+    range: OS_STATUS_enum
+  PATIENT_DISPLAY_NAME:
+    description: Patient display name shown in the patient view header.
+    range: string
+  PATIENT_ID:
+    description: 'Unique patient identifier. Allowed characters: numbers, letters,
+      points, underscores, and hyphens.'
+    range: string
+    required: true
+    pattern: '[0-9a-zA-Z._-]+'
+  SEX:
+    description: Sex of the patient.
+    range: string
+    pattern: .+
+  TUMOR_SITE:
+    description: Tumor site of the patient.
+    range: string
+    pattern: .+
+  ASCN.CCF_EXPECTED_COPIES:
+    description: Cancer-cell fraction if mutation exists on major allele. Required
+      if ascn namespace is specified.
+    range: float
+  ASCN.CCF_EXPECTED_COPIES_UPPER:
+    description: Upper error for CCF estimate. Required if ascn namespace is specified.
+    range: float
+  ASCN.EXPECTED_ALT_COPIES:
+    description: Estimated number of copies harboring mutant allele. Required if ascn
+      namespace is specified.
+    range: float
+  CANCER_TYPE:
+    description: Cancer type. Overrides study-wide cancer type.
+    range: string
+    pattern: .+
+  CANCER_TYPE_DETAILED:
+    description: Cancer type detailed, a sub-type of the specified CANCER_TYPE.
+    range: string
+    pattern: .+
+  DRIVER_MUTATIONS:
+    description: Driver mutation annotations.
+    range: string
+    pattern: .+
+  ERG_FUSION_ACGH:
+    description: ERG fusion status determined by aCGH.
+    range: string
+    pattern: .+
+  ETS_RAF_SPINK1_STATUS:
+    description: ETS/RAF/SPINK1 molecular status.
+    range: string
+    pattern: .+
+  GLEASON_SCORE:
+    description: Radical prostatectomy Gleason score for prostate cancer.
+    range: string
+    pattern: .+
+  HISTOLOGY:
+    description: Histological classification.
+    range: string
+    pattern: .+
+  KNOWN_MOLECULAR_CLASSIFIER:
+    description: Molecular classification of the sample.
+    range: string
+    pattern: .+
+  SERUM_PSA:
+    description: Serum PSA level.
+    range: float
+  TMPRSS2_ERG_FUSION_STATUS:
+    description: TMPRSS2-ERG fusion status.
+    range: string
+    pattern: .+
+  TUMOR_GRADE:
+    description: Tumor grade.
+    range: string
+    pattern: .+
+  TUMOR_STAGE_2009:
+    description: Tumor stage (2009 staging system).
+    range: string
+    pattern: .+
+  METASTATIC_SITE:
+    description: Overrides patient-level TUMOR_SITE for metastatic samples.
+    range: string
+    pattern: .+
+  PRIMARY_SITE:
+    description: Overrides patient-level TUMOR_SITE for primary samples.
+    range: string
+    pattern: .+
+  SAMPLE_CLASS:
+    description: Sample class label.
+    range: string
+  SAMPLE_DISPLAY_NAME:
+    description: Sample display name shown in addition to the sample ID.
+    range: string
+  SAMPLE_ID:
+    description: 'Unique sample identifier. Allowed characters: numbers, letters,
+      points, underscores, and hyphens.'
+    range: string
+    required: true
+    identifier: true
+    pattern: '[0-9a-zA-Z._-]+'
+  SAMPLE_TYPE:
+    description: 'Sample type. Affects timeline icon color: recurrence/recurred/progression/progressed=orange;
+      metastatic/metastasis=red; primary/other=black.'
+    range: SAMPLE_TYPE_enum
+  TUMOR_TISSUE_SITE:
+    description: Tumor tissue site. Same timeline color behavior as SAMPLE_TYPE.
+    range: TUMOR_TISSUE_SITE_enum
+  TUMOR_TYPE:
+    description: Tumor type. Same timeline color behavior as SAMPLE_TYPE.
+    range: TUMOR_TYPE_enum
+  AGENT:
+    description: Agent used in treatment with number of cycles if applicable.
+    range: string
+    pattern: .+
+  AGENT_CLASS:
+    description: Classification group for agents.
+    range: string
+    pattern: .+
+  DIAGNOSTIC_TYPE:
+    description: Diagnostic tool used (timeline IMAGING event), e.g. MRI, CT scan.
+    range: string
+    pattern: .+
+  DIAGNOSTIC_TYPE_DETAILED:
+    description: Detailed description of the diagnostic event type.
+    range: string
+    pattern: .+
+  EVENT_TYPE:
+    description: Category of the timeline event.
+    range: EVENT_TYPE_enum
+    required: true
+  SPECIMEN_SITE:
+    description: Site from where the specimen was collected (timeline SPECIMEN event).
+    range: string
+    pattern: .+
+  SPECIMEN_TYPE:
+    description: Specimen type.
+    range: SPECIMEN_TYPE_enum
+  START_DATE:
+    description: Start point of event calculated in days from the date of diagnosis
+      (day 0).
+    range: integer
+    required: true
+    pattern: '[0-9]+'
+  STATUS:
+    description: Status value for timeline STATUS events (e.g. best response, stage
+      progression).
+    range: string
+    pattern: .+
+  STOP_DATE:
+    description: End date of event in days from diagnosis. Blank for point-in-time
+      events.
+    range: integer
+    pattern: '[0-9]+'
+  STYLE_COLOR:
+    description: 'Hexadecimal color value for rendering this event (e.g. #ffffff).'
+    range: string
+    pattern: '#[0-9a-fA-F]{6}'
+  STYLE_SHAPE:
+    description: Shape for rendering this event in timeline.
+    range: STYLE_SHAPE_enum
+  SUBTYPE:
+    description: 'Treatment subtype. Medical: Chemotherapy, Hormone Therapy, Targeted
+      Therapy, etc. Radiation: WPRT, IVRT, etc.'
+    range: string
+    pattern: .+
+  TEST:
+    description: Type of test performed (timeline LAB_TEST event).
+    range: string
+    pattern: .+
+  TL_PATIENT_ID:
+    description: Patient ID from the dataset (timeline context).
+    range: string
+    required: true
+    pattern: .+
+  TL_RESULT:
+    description: Result value for lab test or imaging.
+    range: string
+    pattern: .+
+  TL_SAMPLE_ID:
+    description: Links timeline event to a sample.
+    range: string
+    pattern: .+
+  TL_SOURCE:
+    description: Source/location where event was performed.
+    range: string
+    pattern: .+
+  TREATMENT_TYPE:
+    description: Treatment type (timeline TREATMENT event).
+    range: TREATMENT_TYPE_enum
+enums:
+  DFS_STATUS_enum:
+    permissible_values:
+      0:DiseaseFree: null
+      1:Recurred/Progressed: null
+  OS_STATUS_enum:
+    permissible_values:
+      1:DECEASED: null
+      0:LIVING: null
+  SAMPLE_TYPE_enum:
+    permissible_values:
+      recurrence: null
+      recurred: null
+      progression: null
+      progressed: null
+      metastatic: null
+      metastasis: null
+      primary: null
+  TUMOR_TISSUE_SITE_enum:
+    permissible_values:
+      recurrence: null
+      recurred: null
+      progression: null
+      progressed: null
+      metastatic: null
+      metastasis: null
+      primary: null
+  TUMOR_TYPE_enum:
+    permissible_values:
+      recurrence: null
+      recurred: null
+      progression: null
+      progressed: null
+      metastatic: null
+      metastasis: null
+      primary: null
+  EVENT_TYPE_enum:
+    permissible_values:
+      TREATMENT: null
+      LAB_TEST: null
+      IMAGING: null
+      STATUS: null
+      SPECIMEN: null
+      SAMPLE ACQUISITION: null
+      SEQUENCING: null
+  SPECIMEN_TYPE_enum:
+    permissible_values:
+      tissue: null
+      blood: null
+  STYLE_SHAPE_enum:
+    permissible_values:
+      circle: null
+      square: null
+      triangle: null
+      diamond: null
+      star: null
+      camera: null
+  TREATMENT_TYPE_enum:
+    permissible_values:
+      Medical Therapy: null
+      Radiation Therapy: null

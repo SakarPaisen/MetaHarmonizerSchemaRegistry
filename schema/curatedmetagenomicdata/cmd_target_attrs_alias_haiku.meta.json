@@ -1,0 +1,11 @@
+{
+  "script": "build_schema_artifacts.py",
+  "model": "claude-haiku-4-5-20251001",
+  "prompt_version": "cancer_genomics",
+  "source_schema": "cmd_target_attrs.csv",
+  "n_target_fields": 71,
+  "n_alias_rows": 737,
+  "n_unique_sources": 732,
+  "started_at": "2026-07-01T20:41:19",
+  "finished_at": "2026-07-01T20:42:44"
+}

@@ -1,0 +1,62 @@
+{
+  "DFS_STATUS": [
+    "0:DiseaseFree",
+    "1:Recurred/Progressed"
+  ],
+  "OS_STATUS": [
+    "1:DECEASED",
+    "0:LIVING"
+  ],
+  "SAMPLE_TYPE": [
+    "recurrence",
+    "recurred",
+    "progression",
+    "progressed",
+    "metastatic",
+    "metastasis",
+    "primary"
+  ],
+  "TUMOR_TISSUE_SITE": [
+    "recurrence",
+    "recurred",
+    "progression",
+    "progressed",
+    "metastatic",
+    "metastasis",
+    "primary"
+  ],
+  "TUMOR_TYPE": [
+    "recurrence",
+    "recurred",
+    "progression",
+    "progressed",
+    "metastatic",
+    "metastasis",
+    "primary"
+  ],
+  "EVENT_TYPE": [
+    "TREATMENT",
+    "LAB_TEST",
+    "IMAGING",
+    "STATUS",
+    "SPECIMEN",
+    "SAMPLE ACQUISITION",
+    "SEQUENCING"
+  ],
+  "SPECIMEN_TYPE": [
+    "tissue",
+    "blood"
+  ],
+  "STYLE_SHAPE": [
+    "circle",
+    "square",
+    "triangle",
+    "diamond",
+    "star",
+    "camera"
+  ],
+  "TREATMENT_TYPE": [
+    "Medical Therapy",
+    "Radiation Therapy"
+  ]
+}
