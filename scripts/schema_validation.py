@@ -84,7 +84,11 @@ def read_schema(path: str) -> dict:
             "pattern": None,
         }
         if allowed is not None:
-            if corpus in ENUM_CORPUS_TYPES:
+            # Enum when any `|`-token of corpus.type is an enum type (covers
+            # compound `dynamic_enum|static_enum`); otherwise treat as regex.
+            corpus_toks = set() if corpus is None else {
+                t.strip() for t in corpus.split("|")}
+            if corpus_toks & ENUM_CORPUS_TYPES:
                 field["allowed_values"] = [v.strip() for v in allowed.split("|")]
             else:
                 field["pattern"] = allowed

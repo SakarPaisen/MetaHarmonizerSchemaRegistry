@@ -74,6 +74,16 @@ parse_args <- function(args) {
 ENUM_CORPUS_TYPES    <- c("static_enum", "custom_enum", "binary")
 NUMERIC_COL_CLASSES  <- c("integer", "double", "numeric")
 
+# TRUE where any "|"-token of corpus.type is an enum type. Handles compound
+# types like "dynamic_enum|static_enum" so their explicit allowedvalues (the
+# static half) are still emitted as an enum value set. Vectorized over `ct`.
+is_enum_corpus_type <- function(ct) {
+  vapply(ct, function(x) {
+    if (is.na(x)) return(FALSE)
+    any(trimws(strsplit(x, "\\|")[[1]]) %in% ENUM_CORPUS_TYPES)
+  }, logical(1), USE.NAMES = FALSE)
+}
+
 # ---- 0. read the schema table ----------------------------------------------
 # The registry writes these with write.table() (space-separated, quoted), so
 # read.table() -- not read.csv() -- is the correct reader. check.names=FALSE
@@ -119,8 +129,7 @@ write_target_attrs <- function(dict, outdir, prefix) {
 # ---- 3. allowed-values JSON (SchemaMapper value dict) ----------------------
 write_allowed_values <- function(dict, outdir, prefix) {
   out <- file.path(outdir, paste0(prefix, "_target_attrs_allowed_values.json"))
-  is_enum <- !is.na(dict$corpus.type) &
-             dict$corpus.type %in% ENUM_CORPUS_TYPES &
+  is_enum <- is_enum_corpus_type(dict$corpus.type) &
              !is.na(dict$allowedvalues) & dict$allowedvalues != ""
   enum <- dict[is_enum, , drop = FALSE]
   values <- lapply(enum$allowedvalues, function(v) {

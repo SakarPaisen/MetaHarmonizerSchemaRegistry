@@ -52,8 +52,13 @@ Flags (identical in both): `--input`, `--outdir` (default: dir of `--input`),
   three `*_target_attrs*` files are internally consistent so SchemaMapper maps
   incoming columns onto these exact names.
 - **Enum extraction.** A field contributes to the value dict when its
-  `corpus.type` is one of `static_enum`, `custom_enum`, `binary`; its
-  `allowedvalues` are split on `|`.
+  `corpus.type` contains an enum token (`static_enum`, `custom_enum`, `binary`) —
+  including compound types like `dynamic_enum|static_enum`; its `allowedvalues`
+  are split on `|`.
+- **Delimiter.** `|` is the single list delimiter across the schema: enum
+  `allowedvalues`, positional `static.enum` ids, multi-node `dynamic.enum`
+  roots, and compound `corpus.type` tokens all use it. (`;`/`<;>` in the
+  `delimiter`/`separator` columns are data-cell separators, unrelated.)
 - **Numeric flag.** `is_numeric_field` is `yes` when `col.class` is `integer`,
   `double`, or `numeric`, else `no`.
 - **R vs Python parity.** Both emit identical `slots`, `enums`, `classes`, the
@@ -64,6 +69,44 @@ Flags (identical in both): `--input`, `--outdir` (default: dir of `--input`),
 - **Dependencies.** R: `OmicsMLRepoCuration`, `jsonlite` (+ `MetaHarmonizerR`
   for step 4). Python: `pandas`, `pyyaml` (+ `metaharmonizer` for step 4).
 
+
+# Ontology corpus & term artifacts
+
+`build_ontology_artifacts.py` materializes the **ontology-backed** layers of a
+schema — the network-dependent companion to `build_schema_artifacts.py`. For
+each corpus-bearing field it unions the three corpus layers into one target
+term list:
+
+1. `dynamic.enum` roots → descendant (or direct-child, per `dynamic.enum.property`) branch;
+2. enum `allowedvalues` labels (bound to their positional `static.enum` id + synonyms where present);
+3. standalone `static.enum` terms (the combined `dynamic_enum|static_enum` case).
+
+Regex `allowedvalues` contribute nothing (they are validation-only). Ontology
+routing matches `OntoMapEngine`: **NCIt** terms are expanded via the **NCI
+EVSREST** API, **all other** ontologies via **EBI OLS4** (both keyless). It writes:
+
+| Output | Consumer |
+|--------|----------|
+| `corpus/<field>[_<ontology>]_corpus.csv` (+ `.json`) | **OntoMapEngine** `corpus_df` (mixed-ontology fields split one CSV per ontology) |
+| `<prefix>_ontology_terms.json` | R `validateDataAgainstSchema(ontology_terms=)` via `OmicsMLRepoCuration::loadOntologyTerms()` |
+
+This closes the loop for both goals: the same materialized terms **populate the
+target corpus** (matching) and **feed validation** of `dynamic_enum` /
+`static_enum` fields, which previously required a caller-supplied term list.
+
+```bash
+# needs network: NCIt terms via NCI EVSREST, others via EBI OLS4
+# (both public/unauthenticated — no API key)
+python scripts/build_ontology_artifacts.py \
+    --input schema/curatedmetagenomicdata/cmd_schema.csv --prefix cmd
+python scripts/build_ontology_artifacts.py --input .../cmd_schema.csv \
+    --prefix cmd --fields disease,treatment   # subset; --no-synonyms for fewer calls
+```
+
+Mixed-ontology fields (e.g. `disease` = NCIT + MONDO) cannot be mapped in one
+`OntoMapEngine` run; use `combined_corpus_builder.run_ontology_partitioned()` to
+run per ontology and merge the candidate lists. The core builders live in
+`MetaHarmonizer` (`metaharmonizer.knowledge_db.combined_corpus_builder`).
 
 # Validating data against a schema
 

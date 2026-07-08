@@ -68,6 +68,17 @@ def _truthy(v) -> bool:
     return str(v).strip().upper() in {"TRUE", "T", "1"}
 
 
+def _is_enum_corpus_type(ct) -> bool:
+    """True if any ``|``-token of corpus.type is an enum type.
+
+    Handles compound types like ``dynamic_enum|static_enum`` so their explicit
+    ``allowedvalues`` (the static half) are still emitted as an enum value set.
+    """
+    if _isna(ct):
+        return False
+    return any(tok.strip() in ENUM_CORPUS_TYPES for tok in str(ct).split("|"))
+
+
 def read_schema(path: str) -> pd.DataFrame:
     """Read the registry's write.table() output: space-separated, quoted."""
     return pd.read_csv(
@@ -166,7 +177,7 @@ def table_to_linkml_schema(
         # has none, but kept for parity with the R implementation.
         de = row.get("dynamic.enum")
         if not _isna(de):
-            roots = [r.strip() for r in str(de).split(";") if r.strip() not in ("", "NA")]
+            roots = [r.strip() for r in str(de).split("|") if r.strip() not in ("", "NA")]
             prop = row.get("dynamic.enum.property")
             prop = str(prop) if not _isna(prop) else "descendant"
             is_direct = prop == "children"
@@ -256,7 +267,7 @@ def write_allowed_values(df: pd.DataFrame, outdir: Path, prefix: str) -> Path:
     for _, row in df.iterrows():
         ct = row.get("corpus.type")
         av = row.get("allowedvalues")
-        if not _isna(ct) and ct in ENUM_CORPUS_TYPES and not _isna(av):
+        if _is_enum_corpus_type(ct) and not _isna(av):
             values[row["col.name"]] = [v.strip() for v in str(av).split("|")]
     with open(out, "w") as fh:
         json.dump(values, fh, indent=2, ensure_ascii=False)
