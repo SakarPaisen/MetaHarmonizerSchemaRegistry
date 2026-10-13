@@ -1,0 +1,18 @@
+# Python dependencies for the scripts/ builders and validators in this repo.
+# These scripts are not a package; install into any Python >= 3.10 env:
+#   pip install -r requirements.txt
+#
+# Covers build_schema_artifacts.py (artifacts 1-3), build_ontology_artifacts.py
+# imports (pandas half), and schema_validation.py.
+
+pandas>=2.0
+PyYAML>=6.0
+
+# --- Not on PyPI -----------------------------------------------------------
+# GitHub-only, needed by:
+#   * build_schema_artifacts.py step 4 (LLM alias dict)
+#   * build_ontology_artifacts.py (metaharmonizer.knowledge_db.combined_corpus_builder)
+#     pip install "git+https://github.com/shbrief/MetaHarmonizer"
+#
+# Optional: schema_validation.py --linkml shells out to linkml-validate
+#     pip install linkml
